@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Item from "./Item";
 
-export default function ItemList() {
+export default function ItemList({ board }) {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ export default function ItemList() {
             img={item.img}
             sound={item.sound}
             place={"list"}
+            setBoard={board}
           />
         ))
       ) : (

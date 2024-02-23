@@ -5,7 +5,7 @@ import { registerRoutes } from "./routes/routes";
 const app = fastify()
 
 app.register(cors, {
-    origin: ["http://localhost:3001"],
+    origin: ["http://localhost:3000"],
   });
 
 registerRoutes(app);

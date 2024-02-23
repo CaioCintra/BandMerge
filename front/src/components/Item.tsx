@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
-export default function Item(props: any) {
-  const name = props.name;
+export default function Item({ name, place, id, img, sound, setBoard }) {
   const [fontSize, setFontSize] = useState(18);
   const divRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const calculateFontSize = () => {
       if (divRef.current) {
@@ -25,12 +25,12 @@ export default function Item(props: any) {
     };
   }, [name]);
 
-  async function clickItem() {
-    if (props.place == "list") {
-      console.log("botão clicado:", props.name);
-
+  function clickItem() {
+    if (place === "list") {
+      console.log("botão clicado:", name);
+      setBoard(id, name, img, sound);
     } else {
-      console.log("botão desclicado:", props.name);
+      console.log("botão desclicado:", name);
     }
   }
 
@@ -39,11 +39,11 @@ export default function Item(props: any) {
       ref={divRef}
       className="bg-transparent ring-4 ring-slate-700 rounded-md h-20 w-20 m-5 flex flex-col justify-center items-center text-center"
       onClick={clickItem}
-      disabled={props.name === "blank"}
+      disabled={name === "blank"}
     >
-      {props.name != "blank" ? (
+      {name !== "blank" && (
         <div>
-          <Image src={"/" + props.img} alt="Img" width={56} height={56} />
+          <Image src={"/" + img} alt="Img" width={56} height={56} />
           <p
             style={{ fontSize: `${fontSize}px` }}
             className="h-6 flex justify-center items-center"
@@ -51,8 +51,6 @@ export default function Item(props: any) {
             {name}
           </p>
         </div>
-      ) : (
-        <></>
       )}
     </button>
   );

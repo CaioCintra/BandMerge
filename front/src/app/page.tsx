@@ -5,17 +5,32 @@ import { useState } from "react";
 
 export default function Home() {
   const [items, setItems] = useState([
-    { id: "0", name: "blank", img: "item1.img", sound: "item1.sound" },
-    { id: "0", name: "blank", img: "item1.img", sound: "item1.sound" },
+    { id: "0", name: "blank", img: "noimg", sound: "nosound" },
+    { id: "0", name: "blank", img: "noimg", sound: "nosound" },
   ]);
 
-  function handleBoard(index: any) {
+  function waitOneSecond(): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 500);
+    });
+  }
+
+  async function handleBoard(id: any, name: any, img: any, sound: any) {
     const newItem = {
-      id: "1",
-      name: "newName",
-      img: "newImg",
-      sound: "newSound",
+      id: id,
+      name: name,
+      img: img,
+      sound: sound,
     };
+    var index = 2;
+
+    if (items[0].name == "blank") {
+      index = 0;
+    } else {
+      if (items[1].name == "blank") index = 1;
+    }
 
     const updatedItems = items.map((item, i) => {
       if (i === index) {
@@ -25,6 +40,14 @@ export default function Home() {
       }
     });
     setItems(updatedItems);
+
+    await waitOneSecond();
+    if (index == 1) {
+      setItems([
+        { id: "0", name: "blank", img: "noimg", sound: "nosound" },
+        { id: "0", name: "blank", img: "noimg", sound: "nosound" },
+      ]);
+    }
   }
 
   return (
@@ -36,6 +59,7 @@ export default function Home() {
           img={items[0].img}
           sound={items[0].sound}
           place="board"
+          setBoard={handleBoard}
         />
         <p className="font-black text-4xl">+</p>
         <Item
@@ -44,17 +68,14 @@ export default function Home() {
           img={items[1].img}
           sound={items[1].sound}
           place="board"
+          setBoard={handleBoard}
         />
-      <button className="bg-red-700" onClick={() => handleBoard(1)}>Clique aqui</button>
       </div>
-      <ItemList></ItemList>
+      <ItemList board={handleBoard}></ItemList>
     </>
   );
 }
 
-
 // Acabei de fazer uma função para trocar por um botão
 
-// - passar cada item por parametro
-// - fazer ser acessada no componente de items
 // - fazer lógica de qual bloco colocar
