@@ -41,8 +41,24 @@ export default function Home() {
     });
     setItems(updatedItems);
 
-    await waitOneSecond();
     if (index == 1) {
+      const item1 = updatedItems[0].id;
+      const item2 = updatedItems[1].id;
+      console.log(item1);
+      console.log(item2);
+      try {
+        const response = await fetch(
+          `http://localhost:3333/merge/${item1}/${item2}`
+        );
+        if (!response.ok) {
+          throw new Error("API Error");
+        }
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error("No Merges");
+      }
+      await waitOneSecond();
       setItems([
         { id: "0", name: "blank", img: "noimg", sound: "nosound" },
         { id: "0", name: "blank", img: "noimg", sound: "nosound" },
@@ -75,7 +91,3 @@ export default function Home() {
     </>
   );
 }
-
-// Acabei de fazer uma função para trocar por um botão
-
-// - fazer lógica de qual bloco colocar

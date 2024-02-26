@@ -14,18 +14,24 @@ model User {
 }
 
 model Item {
-  id      String  @id @default(uuid())
-  name    String
-  img     String?
-  sound   String?
-  type    String  @default("band")
-  owner   User?   @relation("UserItems", fields: [ownerId], references: [id])
-  ownerId String?
+  id           String  @id @default(uuid())
+  name         String
+  img          String?
+  sound        String?
+  type         String  @default("band")
+  owner        User?   @relation("UserItems", fields: [ownerId], references: [id])
+  ownerId      String?
+  mergesFirst  Merge[] @relation("FirstItem")
+  mergesSecond Merge[] @relation("SecondItem")
+  mergesNew    Merge[] @relation("NewItem")
 }
 
 model Merge {
-  id     String @id @default(uuid())
-  First  String
-  Second String
-  New    String
+  id       String @id @default(uuid())
+  First    Item   @relation("FirstItem", fields: [FirstId], references: [id])
+  FirstId  String
+  Second   Item   @relation("SecondItem", fields: [SecondId], references: [id])
+  SecondId String
+  New      Item   @relation("NewItem", fields: [NewId], references: [id])
+  NewId    String
 }
