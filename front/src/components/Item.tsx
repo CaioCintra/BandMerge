@@ -27,26 +27,25 @@ export default function Item({ name, place, id, img, sound, setBoard }) {
 
   function clickItem() {
     if (place === "list") {
-      console.log("botão clicado:", name);
       setBoard(id, name, img, sound);
     } else {
-      console.log("botão desclicado:", name);
+      setBoard(0, "blank", "noimg", "nosound");
     }
   }
 
   return (
     <button
       ref={divRef}
-      className="bg-transparent ring-4 ring-slate-700 rounded-md h-20 w-20 m-5 flex flex-col justify-center items-center text-center"
+      className="bg-white ring-4 ring-slate-700 rounded-md h-20 w-20 m-5 transition ease-in-out hover:-translate-y-1 hover:bg-slate-300 hover:scale-110 duration-300"
       onClick={clickItem}
       disabled={name === "blank"}
     >
       {name !== "blank" && (
         <div>
-          <Image src={"/" + img} alt="Img" width={56} height={56} />
+          <Image src={"/assets/" + img} alt="Img" width={56} height={56} />
           <p
             style={{ fontSize: `${fontSize}px` }}
-            className="h-6 flex justify-center items-center"
+            className="h-6 text-black font-bold flex justify-center items-center"
           >
             {name}
           </p>

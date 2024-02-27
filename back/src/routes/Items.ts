@@ -13,4 +13,26 @@ export async function itemsRoutes(app: FastifyInstance) {
     });
     return items;
   });
+    app.get("/items/genres", async () => {
+    const items = await prisma.item.findMany({
+      where:{
+        type: "genre"
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+    return items;
+  });
+  app.get("/items/bands", async () => {
+    const items = await prisma.item.findMany({
+      where:{
+        type: "band"
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+    return items;
+  });
 }

@@ -1,9 +1,12 @@
 "use client";
 import Item from "@/components/Item";
 import ItemList from "@/components/itemList";
-import { useState } from "react";
+import { Alert, AlertTitle, Button } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [alert, setAlert] = useState(null);
   const [items, setItems] = useState([
     { id: "0", name: "blank", img: "noimg", sound: "nosound" },
     { id: "0", name: "blank", img: "noimg", sound: "nosound" },
@@ -54,7 +57,8 @@ export default function Home() {
           throw new Error("API Error");
         }
         const data = await response.json();
-        console.log(data);
+        setAlert(data.name);
+        console.log("No Merges");
       } catch (error) {
         console.error("No Merges");
       }
@@ -66,8 +70,28 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    if (alert) {
+      const timeout = setTimeout(() => {
+        setAlert(null);
+      }, 2000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [alert]);
+
   return (
     <>
+      {alert && (
+        <Alert
+          className="z-0 absolute w-60 bottom-2 right-0"
+          severity="info"
+          variant="filled"
+        >
+          <AlertTitle className="font-bold">{alert}</AlertTitle>
+          New item unlocked!
+        </Alert>
+      )}
       <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center">
         <Item
           id={items[0].id}

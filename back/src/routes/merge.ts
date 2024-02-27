@@ -31,8 +31,14 @@ export async function mergeRoutes(app: FastifyInstance) {
         });
       }
 
+      let newItem = await prisma.item.findFirst({
+        where: {
+          id: merge[0].NewId
+        },
+      })
+
       if (merge.length === 0) return { error: "No Merges" };
-      else return merge;
+      else return newItem;
     } catch (error) {
       console.error("Erro ao processar a solicitação:", error);
       return { error: "Ocorreu um erro ao processar a solicitação." };
