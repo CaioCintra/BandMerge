@@ -2,15 +2,17 @@
 import Item from "@/components/Item";
 import ItemList from "@/components/itemList";
 import { Alert, AlertTitle, Button } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  var user = "0599147d-3cc3-401c-925d-a964992c9323";
+
   const [alert, setAlert] = useState(null);
   const [items, setItems] = useState([
     { id: "0", name: "blank", img: "noimg", sound: "nosound" },
     { id: "0", name: "blank", img: "noimg", sound: "nosound" },
   ]);
+  const [reloadItemList, setReloadItemList] = useState(false);
 
   function waitOneSecond(): Promise<void> {
     return new Promise((resolve) => {
@@ -47,8 +49,6 @@ export default function Home() {
     if (index == 1) {
       const item1 = updatedItems[0].id;
       const item2 = updatedItems[1].id;
-      console.log(item1);
-      console.log(item2);
       try {
         const response = await fetch(
           `http://localhost:3333/merge/${item1}/${item2}`
@@ -57,8 +57,7 @@ export default function Home() {
           throw new Error("API Error");
         }
         const data = await response.json();
-        setAlert(data.name);
-        console.log("No Merges");
+        addItem(data);
       } catch (error) {
         console.error("No Merges");
       }
@@ -79,6 +78,21 @@ export default function Home() {
       return () => clearTimeout(timeout);
     }
   }, [alert]);
+
+  async function addItem(newItem: any) {
+    console.log(newItem);
+    const response = await fetch(`http://localhost:3333/users/${user}/collection/${newItem.id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    });
+    if (response.ok) {
+    setAlert(newItem.name);
+    setReloadItemList(true);
+  }
+  }
 
   return (
     <>
@@ -111,7 +125,12 @@ export default function Home() {
           setBoard={handleBoard}
         />
       </div>
-      <ItemList board={handleBoard}></ItemList>
+      <ItemList
+        user={user}
+        board={handleBoard}
+        reload={reloadItemList}
+        setReload={setReloadItemList}
+      ></ItemList>
     </>
   );
 }

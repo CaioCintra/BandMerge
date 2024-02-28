@@ -13,10 +13,10 @@ export async function itemsRoutes(app: FastifyInstance) {
     });
     return items;
   });
-    app.get("/items/genres", async () => {
+  app.get("/items/genres", async () => {
     const items = await prisma.item.findMany({
-      where:{
-        type: "genre"
+      where: {
+        type: "genre",
       },
       orderBy: {
         name: "asc",
@@ -26,13 +26,41 @@ export async function itemsRoutes(app: FastifyInstance) {
   });
   app.get("/items/bands", async () => {
     const items = await prisma.item.findMany({
-      where:{
-        type: "band"
+      where: {
+        type: "band",
       },
       orderBy: {
         name: "asc",
       },
     });
     return items;
+  });
+
+  app.get("/user/:userId/:filter/items", async (request, reply) => {
+    try {
+      const paramsSchema = z.object({
+        userId: z.string(),
+        filter: z.string(),
+      });
+      const { userId } = paramsSchema.parse(request.params);
+      const { filter } = paramsSchema.parse(request.params);
+
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: { collection: true },
+      });
+
+      if (!user) {
+        reply.code(404).send({ message: "Usuário não encontrado" });
+        return;
+      }
+
+      const items = user.collection.filter((item) => item.type === filter);
+
+      return items;
+    } catch (error) {
+      console.error("Erro ao obter itens do usuário:", error);
+      reply.code(500).send({ message: "Erro ao processar a solicitação" });
+    }
   });
 }
