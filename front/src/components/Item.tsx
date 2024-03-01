@@ -42,7 +42,7 @@ export default function Item({ name, place, id, img, sound, setBoard }) {
     >
       {name !== "blank" && (
         <div>
-          <Image src={"/assets/" + img} alt="Img" className="inline" width={46} height={46} />
+          <img src={"/assets/" + img} alt="Img" className="inline w-11 h-11 mb-1 mt-1"  />
           <p
             style={{ fontSize: `${fontSize}px` }}
             className="h-6 text-black font-bold flex justify-center items-center"

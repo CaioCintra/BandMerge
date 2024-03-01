@@ -1,11 +1,12 @@
 "use client";
 import Item from "@/components/Item";
+import Login from "@/components/Login";
 import ItemList from "@/components/itemList";
 import { Alert, AlertTitle, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  var user = "0599147d-3cc3-401c-925d-a964992c9323";
+  const [user, setUser] = useState(null);
 
   const [alert, setAlert] = useState(null);
   const [items, setItems] = useState([
@@ -13,6 +14,13 @@ export default function Home() {
     { id: "0", name: "blank", img: "noimg", sound: "nosound" },
   ]);
   const [reloadItemList, setReloadItemList] = useState(false);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   function waitOneSecond(): Promise<void> {
     return new Promise((resolve) => {
@@ -81,32 +89,25 @@ export default function Home() {
 
   async function addItem(newItem: any) {
     console.log(newItem);
-    const response = await fetch(`http://localhost:3333/users/${user}/collection/${newItem.id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({}),
-    });
+    const response = await fetch(
+      `http://localhost:3333/users/${user}/collection/${newItem.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      }
+    );
     if (response.ok) {
-    setAlert(newItem.name);
-    setReloadItemList(true);
-  }
+      setAlert(newItem.name);
+      setReloadItemList(true);
+    }
   }
 
   return (
     <>
-      {alert && (
-        <Alert
-          className="z-0 absolute w-60 bottom-2 right-0"
-          severity="info"
-          variant="filled"
-        >
-          <AlertTitle className="font-bold">{alert}</AlertTitle>
-          New item unlocked!
-        </Alert>
-      )}
-      <div className="fixed bottom-0 left-0 w-full h-full flex justify-center items-center">
+      <div className="z-0 fixed bottom-0 left-0 w-full h-full flex justify-center items-center">
         <Item
           id={items[0].id}
           name={items[0].name}
@@ -125,6 +126,18 @@ export default function Home() {
           setBoard={handleBoard}
         />
       </div>
+      {alert && (
+        <Alert
+          className="z-0 absolute w-60 bottom-2 right-0"
+          severity="info"
+          variant="filled"
+          onClose={() => setAlert(null)}
+        >
+          <AlertTitle className="font-bold">{alert}</AlertTitle>
+          New item unlocked!
+        </Alert>
+      )}
+      <Login user={user} setUser={setUser} />
       <ItemList
         user={user}
         board={handleBoard}
