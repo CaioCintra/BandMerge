@@ -42,12 +42,11 @@ export async function itemsRoutes(app: FastifyInstance) {
         userId: z.string(),
         filter: z.string(),
       });
-      const { userId } = paramsSchema.parse(request.params);
-      const { filter } = paramsSchema.parse(request.params);
+      const { userId, filter } = paramsSchema.parse(request.params);
 
       const user = await prisma.user.findUnique({
         where: { id: userId },
-        include: { collection: true },
+        include: { items: true },
       });
 
       if (!user) {
@@ -55,7 +54,7 @@ export async function itemsRoutes(app: FastifyInstance) {
         return;
       }
 
-      const items = user.collection.filter((item) => item.type === filter);
+      const items = user.items.filter((item) => item.type === filter);
 
       return items;
     } catch (error) {

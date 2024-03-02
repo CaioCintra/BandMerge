@@ -41,12 +41,12 @@ export async function usersRoutes(app: FastifyInstance) {
         data: {
           name,
           password: hashedPassword,
-          collection: {
+          items: {
             connect: itemUniqueInputs,
           },
         },
         include: {
-          collection: true,
+          items: true,
         },
       });
 
@@ -83,58 +83,65 @@ export async function usersRoutes(app: FastifyInstance) {
     }
   });
 
-  app.post("/users/:userId/collection/:itemId", async (request: FastifyRequest<{ Params: { userId: string, itemId: string } }>, reply) => {
-    try {
-      const { userId, itemId } = request.params;
-      const user = await prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
-        include: {
-          collection: true,
-        },
-      });
+  app.post(
+    "/users/:userId/collection/:itemId",
+    async (
+      request: FastifyRequest<{ Params: { userId: string; itemId: string } }>,
+      reply
+    ) => {
+      try {
+        const { userId, itemId } = request.params;
 
-      if (!user) {
-        throw new Error("Usuário não encontrado.");
-      }
+        const user = await prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+          include: {
+            items: true,
+          },
+        });
 
-      const item = await prisma.item.findUnique({
-        where: {
-          id: itemId,
-        },
-      });
+        if (!user) {
+          throw new Error("Usuário não encontrado.");
+        }
 
-      if (!item) {
-        throw new Error("Item não encontrado.");
-      }
+        const item = await prisma.item.findUnique({
+          where: {
+            id: itemId,
+          },
+        });
 
-      const existingItem = user.collection.find(
-        (collectionItem) => collectionItem.id === itemId
-      );
-      if (existingItem) {
-        throw new Error("O item já está na coleção do usuário.");
-      }
+        if (!item) {
+          throw new Error("Item não encontrado.");
+        }
 
-      const updatedUser = await prisma.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          collection: {
-            connect: {
-              id: itemId,
+        const existingItem = user.items.find(
+          (collectionItem) => collectionItem.id === itemId
+        );
+        if (existingItem) {
+          throw new Error("O item já está na coleção do usuário.");
+        }
+
+        const updatedUser = await prisma.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            items: {
+              connect: {
+                id: itemId,
+              },
             },
           },
-        },
-        include: {
-          collection: true,
-        },
-      });
+          include: {
+            items: true,
+          },
+        });
 
-      reply.code(201).send(updatedUser);
-    } catch (error) {
-      reply.code(400).send({ error: error.message });
+        reply.code(201).send(updatedUser);
+      } catch (error) {
+        reply.code(400).send({ error: error.message });
+      }
     }
-  });
+  );
 }
