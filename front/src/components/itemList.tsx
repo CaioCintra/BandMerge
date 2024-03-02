@@ -11,7 +11,9 @@ export default function ItemList({ board, user, reload, setReload }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3333/user/${user}/genre/items`);
+        const response = await fetch(
+          `http://localhost:3333/user/${user}/genre/items`
+        );
         if (!response.ok) {
           throw new Error("API Error");
         }
@@ -21,7 +23,9 @@ export default function ItemList({ board, user, reload, setReload }) {
         console.error("Err:", error);
       }
       try {
-        const response = await fetch(`http://localhost:3333/user/${user}/band/items`);
+        const response = await fetch(
+          `http://localhost:3333/user/${user}/band/items`
+        );
         if (!response.ok) {
           throw new Error("API Error");
         }
@@ -37,7 +41,7 @@ export default function ItemList({ board, user, reload, setReload }) {
   }, [reload, user]);
 
   return (
-    <div className="bg-slate-800 fixed bottom-0 left-0 w-1/3 h-full pl-3 p-3">
+    <div className="bg-slate-800 fixed bottom-0 left-0 w-[35%] h-full pl-3 p-3 overflow-y-auto">
       <Chip label="Genres" color="error" className="mt-3" />
       <br />
       {genres ? (
