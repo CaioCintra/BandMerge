@@ -2,11 +2,16 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { Input } from "@nextui-org/react";
 
-export default function Login({ user, setUser }) {
+interface LoginProps {
+  user: any;
+  setUser: any;
+}
+
+export default function Login({ user, setUser }: LoginProps) {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -32,7 +37,7 @@ export default function Login({ user, setUser }) {
     }
   };
 
-  const logout = async (e) => {
+  const logout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setUser(null);
     localStorage.setItem("user", "");
     window.location.reload();
