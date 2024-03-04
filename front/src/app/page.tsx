@@ -109,7 +109,7 @@ export default function Home() {
     <>
       <div className="z-0 fixed bottom-0 left-0 w-full h-full flex justify-center items-center">
         <Item
-          id={items[0].id}
+          id={Number(items[0].id)}
           name={items[0].name}
           img={items[0].img}
           sound={items[0].sound}
@@ -118,7 +118,7 @@ export default function Home() {
         />
         <p className="font-black text-4xl">+</p>
         <Item
-          id={items[1].id}
+          id={Number(items[1].id)}
           name={items[1].name}
           img={items[1].img}
           sound={items[1].sound}

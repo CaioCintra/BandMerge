@@ -1,12 +1,30 @@
-"use client";
 import { useEffect, useState } from "react";
 import Item from "./Item";
 import { Chip } from "@mui/material";
 
-export default function ItemList({ board, user, reload, setReload }) {
-  const [genres, setGenre] = useState(null);
-  const [bands, setBand] = useState(null);
-  const [items, setItems] = useState([]);
+interface ItemListProps {
+  board: any;
+  user: any;
+  reload: any;
+  setReload: any;
+}
+
+interface ItemData {
+  id: number;
+  name: string;
+  img: string;
+  sound: string;
+}
+
+export default function ItemList({
+  board,
+  user,
+  reload,
+  setReload,
+}: ItemListProps) {
+  const [genres, setGenres] = useState<ItemData[]>([]);
+  const [bands, setBands] = useState<ItemData[]>([]);
+  const [items, setItems] = useState<ItemData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +36,7 @@ export default function ItemList({ board, user, reload, setReload }) {
           throw new Error("API Error");
         }
         const data = await response.json();
-        setGenre(data);
+        setGenres(data);
       } catch (error) {
         console.error("Err:", error);
       }
@@ -30,7 +48,7 @@ export default function ItemList({ board, user, reload, setReload }) {
           throw new Error("API Error");
         }
         const data = await response.json();
-        setBand(data);
+        setBands(data);
       } catch (error) {
         console.error("Err:", error);
       }
@@ -44,8 +62,8 @@ export default function ItemList({ board, user, reload, setReload }) {
     <div className="bg-slate-800 fixed bottom-0 left-0 w-[35%] h-full pl-3 p-3 overflow-y-auto">
       <Chip label="Genres" color="error" className="mt-3" />
       <br />
-      {genres ? (
-        genres.map((item: any) => (
+      {genres.length > 0 ? (
+        genres.map((item) => (
           <Item
             key={item.id}
             id={item.id}
@@ -62,8 +80,8 @@ export default function ItemList({ board, user, reload, setReload }) {
       <br />
       <Chip label="Artists" color="info" className="mt-3" />
       <br />
-      {bands ? (
-        bands.map((item: any) => (
+      {bands.length > 0 ? (
+        bands.map((item) => (
           <Item
             key={item.id}
             id={item.id}

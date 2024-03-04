@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, LegacyRef } from "react";
 
 interface ItemProps {
   name: string;
@@ -7,7 +7,7 @@ interface ItemProps {
   id: number;
   img: string;
   sound: string;
-  setBoard: Function; // Update this with the actual type of setBoard if possible
+  setBoard: Function;
 }
 
 export default function Item({
@@ -19,14 +19,14 @@ export default function Item({
   setBoard,
 }: ItemProps) {
   const [fontSize, setFontSize] = useState(18);
-  const divRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const calculateFontSize = () => {
-      if (divRef.current) {
-        const divWidth = divRef.current.offsetWidth;
+      if (buttonRef.current) {
+        const buttonWidth = buttonRef.current.offsetWidth;
         const textLength = name?.length;
-        const newFontSize = Math.max(Math.floor(divWidth / textLength), 10);
+        const newFontSize = Math.max(Math.floor(buttonWidth / textLength), 10);
 
         if (newFontSize > 18) setFontSize(18);
         else setFontSize(newFontSize);
@@ -51,7 +51,7 @@ export default function Item({
 
   return (
     <button
-      ref={divRef}
+      ref={buttonRef as LegacyRef<HTMLButtonElement>}
       className="bg-white ring-4 ring-slate-700 rounded-md h-20 w-20 m-5 transition ease-in-out hover:-translate-y-1 hover:bg-slate-300 hover:scale-110 duration-300"
       onClick={clickItem}
       disabled={name === "blank"}
