@@ -59,7 +59,7 @@ export default function Home() {
       const item2 = updatedItems[1].id;
       try {
         const response = await fetch(
-          `http://localhost:3333/merge/${item1}/${item2}`
+          `${process.env.URL_BACK}/merge/${item1}/${item2}`
         );
         if (!response.ok) {
           throw new Error("API Error");
@@ -90,7 +90,7 @@ export default function Home() {
   async function addItem(newItem: any) {
     console.log(newItem);
     const response = await fetch(
-      `http://localhost:3333/users/${user}/collection/${newItem.id}`,
+      `${process.env.URL_BACK}/users/${user}/collection/${newItem.id}`,
       {
         method: "POST",
         headers: {

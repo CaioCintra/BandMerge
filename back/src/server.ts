@@ -5,7 +5,7 @@ import { registerRoutes } from "./routes/routes";
 const app = fastify()
 
 app.register(cors, {
-    origin: ["http://localhost:3000"],
+    origin: [`${process.env.URL_FRONT}`],
   });
 
 registerRoutes(app);
@@ -13,5 +13,5 @@ registerRoutes(app);
 app.listen({
     port: 3333,
 }).then(()=> {
-    console.log('Servidor executando em http://localhost:3333')
+    console.log(`Servidor executando em ${process.env.URL_BACK}`)
 })
