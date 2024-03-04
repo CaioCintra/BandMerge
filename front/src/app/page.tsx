@@ -5,7 +5,7 @@ import ItemList from "@/components/itemList";
 import { Alert, AlertTitle } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const urlBack = 'http://localhost:3333';
+const urlBack = process.env.URL_BACK;
 
 export default function Home() {
   const [user, setUser] = useState(null);
