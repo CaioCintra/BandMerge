@@ -5,17 +5,13 @@ import { registerRoutes } from "./routes/routes";
 const app = fastify()
 
 app.register(cors, {
-    origin: [`${process.env.URL_FRONT}`],
+    origin: ["http://localhost:3000"],
   });
 
 registerRoutes(app);
 
-const port = process.env.PORT ? parseInt(process.env.PORT) : 3333;
-
-app.listen(port, (err, address) => {
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
-    console.log(`Servidor executando em ${process.env.URL_BACK}`);
-});
+app.listen({
+    port: 3333,
+}).then(()=> {
+    console.log('Servidor executando em http://localhost:3333')
+})

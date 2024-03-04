@@ -16,7 +16,7 @@ export default function NewAccount() {
       return;
     }
 
-    fetch(`${process.env.URL_BACK}/users`, {
+    fetch(`http://localhost:3333/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -15,7 +15,7 @@ export default function Login({ user, setUser }: LoginProps) {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.URL_BACK}/login`, {
+      const response = await fetch(`http://localhost:3333/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

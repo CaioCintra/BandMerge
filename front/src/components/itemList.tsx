@@ -30,7 +30,7 @@ export default function ItemList({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${process.env.URL_BACK}/user/${user}/genre/items`
+          `http://localhost:3333/user/${user}/genre/items`
         );
         if (!response.ok) {
           throw new Error("API Error");
@@ -42,7 +42,7 @@ export default function ItemList({
       }
       try {
         const response = await fetch(
-          `${process.env.URL_BACK}/user/${user}/band/items`
+          `http://localhost:3333/user/${user}/band/items`
         );
         if (!response.ok) {
           throw new Error("API Error");
