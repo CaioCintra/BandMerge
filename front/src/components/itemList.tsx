@@ -25,7 +25,7 @@ export default function ItemList({
   const [genres, setGenres] = useState<ItemData[]>([]);
   const [bands, setBands] = useState<ItemData[]>([]);
   const [items, setItems] = useState<ItemData[]>([]);
-  const urlBack = process.env.URL_BACK;
+  const urlBack = "http://localhost:3333";
 
   useEffect(() => {
     const fetchData = async () => {

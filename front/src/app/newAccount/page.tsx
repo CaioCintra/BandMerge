@@ -7,7 +7,7 @@ export default function NewAccount() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const urlBack = process.env.URL_BACK;
+  const urlBack = "http://localhost:3333";
 
   const handleSubmit = (event:any) => {
     event.preventDefault();

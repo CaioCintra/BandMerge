@@ -10,7 +10,7 @@ interface LoginProps {
 export default function Login({ user, setUser }: LoginProps) {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const urlBack = process.env.URL_BACK;
+  const urlBack = "http://localhost:3333";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
