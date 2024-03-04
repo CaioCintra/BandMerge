@@ -8,6 +8,8 @@ app.register(cors, {
     origin: ["http://localhost:3000"],
   });
 
+
+const port = process.env.PORT || 3333;
 registerRoutes(app);
 
 app.listen({
