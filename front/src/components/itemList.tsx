@@ -60,7 +60,7 @@ export default function ItemList({ board, user, reload, setReload }) {
         <></>
       )}
       <br />
-      <Chip label="Bands" color="info" className="mt-3" />
+      <Chip label="Artists" color="info" className="mt-3" />
       <br />
       {bands ? (
         bands.map((item: any) => (

@@ -46,7 +46,9 @@ export async function itemsRoutes(app: FastifyInstance) {
 
       const user = await prisma.user.findUnique({
         where: { id: userId },
-        include: { items: true },
+        include: {
+          items: { where: { type: filter }, orderBy: { name: "asc" } },
+        },
       });
 
       if (!user) {
@@ -54,9 +56,7 @@ export async function itemsRoutes(app: FastifyInstance) {
         return;
       }
 
-      const items = user.items.filter((item) => item.type === filter);
-
-      return items;
+      return user.items;
     } catch (error) {
       console.error("Erro ao obter itens do usuário:", error);
       reply.code(500).send({ message: "Erro ao processar a solicitação" });
