@@ -1,7 +1,23 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import { useState, useEffect, useRef } from "react";
 
-export default function Item({ name, place, id, img, sound, setBoard }) {
+interface ItemProps {
+  name: string;
+  place: string;
+  id: number;
+  img: string;
+  sound: string;
+  setBoard: Function; // Update this with the actual type of setBoard if possible
+}
+
+export default function Item({
+  name,
+  place,
+  id,
+  img,
+  sound,
+  setBoard,
+}: ItemProps) {
   const [fontSize, setFontSize] = useState(18);
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +58,11 @@ export default function Item({ name, place, id, img, sound, setBoard }) {
     >
       {name !== "blank" && (
         <div>
-          <img src={"/assets/" + img} alt="Img" className="inline max-w-20 h-11 mb-1 mt-1"  />
+          <img
+            src={"/assets/" + img}
+            alt="Img"
+            className="inline max-w-20 h-11 mb-1 mt-1"
+          />
           <p
             style={{ fontSize: `${fontSize}px` }}
             className="h-6 text-black font-bold flex justify-center items-center"
