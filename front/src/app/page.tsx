@@ -5,6 +5,8 @@ import ItemList from "@/components/itemList";
 import { Alert, AlertTitle } from "@mui/material";
 import { useEffect, useState } from "react";
 
+const urlBack = 'http://localhost:3333';
+
 export default function Home() {
   const [user, setUser] = useState(null);
 
@@ -59,7 +61,7 @@ export default function Home() {
       const item2 = updatedItems[1].id;
       try {
         const response = await fetch(
-          `http://localhost:3333/merge/${item1}/${item2}`
+          `${urlBack}/merge/${item1}/${item2}`
         );
         if (!response.ok) {
           throw new Error("API Error");
@@ -90,7 +92,7 @@ export default function Home() {
   async function addItem(newItem: any) {
     console.log(newItem);
     const response = await fetch(
-      `http://localhost:3333/users/${user}/collection/${newItem.id}`,
+      `${urlBack}/users/${user}/collection/${newItem.id}`,
       {
         method: "POST",
         headers: {

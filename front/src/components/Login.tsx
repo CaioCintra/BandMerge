@@ -10,12 +10,13 @@ interface LoginProps {
 export default function Login({ user, setUser }: LoginProps) {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const urlBack = "http://localhost:3333";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3333/login`, {
+      const response = await fetch(`${urlBack}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +63,12 @@ export default function Login({ user, setUser }: LoginProps) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button variant="outlined" color="inherit" type="submit" className="m-3">
+          <Button
+            variant="outlined"
+            color="inherit"
+            type="submit"
+            className="m-3"
+          >
             Login
           </Button>
           <a

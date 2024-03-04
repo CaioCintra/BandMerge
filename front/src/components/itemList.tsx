@@ -25,13 +25,12 @@ export default function ItemList({
   const [genres, setGenres] = useState<ItemData[]>([]);
   const [bands, setBands] = useState<ItemData[]>([]);
   const [items, setItems] = useState<ItemData[]>([]);
+  const urlBack = "http://localhost:3333";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3333/user/${user}/genre/items`
-        );
+        const response = await fetch(`${urlBack}/user/${user}/genre/items`);
         if (!response.ok) {
           throw new Error("API Error");
         }
@@ -41,9 +40,7 @@ export default function ItemList({
         console.error("Err:", error);
       }
       try {
-        const response = await fetch(
-          `http://localhost:3333/user/${user}/band/items`
-        );
+        const response = await fetch(`${urlBack}/user/${user}/band/items`);
         if (!response.ok) {
           throw new Error("API Error");
         }
