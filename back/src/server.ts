@@ -10,8 +10,12 @@ app.register(cors, {
 
 registerRoutes(app);
 
-app.listen({
-    port: 3333,
-}).then(()=> {
-    console.log(`Servidor executando em ${process.env.URL_BACK}`)
-})
+const port = process.env.PORT ? parseInt(process.env.PORT) : 3333;
+
+app.listen(port, (err, address) => {
+    if (err) {
+        console.error(err);
+        process.exit(1);
+    }
+    console.log(`Servidor executando em ${process.env.URL_BACK}`);
+});
