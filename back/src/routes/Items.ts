@@ -5,6 +5,9 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 export async function itemsRoutes(app: FastifyInstance) {
+  app.get("/", async () => {
+    return ("hello world");
+  });
   app.get("/items", async () => {
     const items = await prisma.item.findMany({
       orderBy: {
